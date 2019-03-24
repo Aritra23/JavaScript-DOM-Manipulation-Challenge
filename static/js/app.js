@@ -13,11 +13,9 @@ var dataList = ["datetime", "city", "state", "country", "shape", "durationMinute
 
 //Function to populate the data in table
 var populate = (dataInput) => {
-
     dataInput.forEach(ufo_sightings => {
       var row = tbody.append("tr");
-      dataList.forEach(column => row.append("td").text(ufo_sightings[column])
-      )
+      dataList.forEach(column => row.append("td").text(ufo_sightings[column]))
     });
   }
 
@@ -88,16 +86,28 @@ filterButton.on("click", function() {
     if (response.filterData.length !== 0) {
       populate(filterData);
     }
-    else if (response.filterState.length === 0  && ((response.filterCity.length !== 0 || response.filterDate.length !== 0))){
-        populate(filterCity) || populate(filterDate) || populate(filterDateTimeCity);
+    else if (response.filterState.length === 0  && ((response.filterCity.length !== 0 && response.filterDate.length !== 0))){
+        populate(filterDateTimeCity);
     
     }
-    else if (response.filterCity.length === 0 && ((response.filterState.length !== 0 || response.filterDate.length !== 0))){
-        populate(filterState) || populate(filterDate) || populate(filterDateTimeState);
+    else if (response.filterCity.length === 0 && ((response.filterState.length !== 0 && response.filterDate.length !== 0))){
+        populate(filterDateTimeState);
     
     }
-    else if (response.filterDate.length === 0 && ((response.filterState.length !== 0 || response.filterCity.length !== 0))){
-        populate(filterState) || populate(filterCity) || populate(filterCityState);
+    else if (response.filterDate.length === 0 && ((response.filterState.length !== 0 && response.filterCity.length !== 0))){
+        populate(filterCityState);
+    
+    }
+    else if (response.filterDate.length !== 0 && ((response.filterState.length === 0 && response.filterCity.length === 0))){
+        populate(filterDate);
+    
+    }
+    else if (response.filterCity.length !== 0 && ((response.filterState.length === 0 && response.filterDate.length === 0))){
+        populate(filterCity);
+    
+    }
+    else if (response.filterState.length !== 0 && ((response.filterCity.length === 0 && response.filterDate.length === 0))){
+        populate(filterState);
     
     }
     else {
